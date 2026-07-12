@@ -1,24 +1,31 @@
 # 卡片笔记模板
 
+遵循 Obsidian Flavored Markdown 规范。Obsidian 专属语法（wikilinks / callouts / embeds / properties）详见 `obsidian-markdown` skill。
+
 ## YAML frontmatter
 
 ```yaml
 ---
 tags:
   - wechat
+  - product/prd        # 支持嵌套标签
 title: 原文标题
 source: https://mp.weixin.qq.com/s/xxxx
-author: 作者姓名
-published_at: 2026-07-03T12:10:00+08:00
+author: "[[作者姓名]]"   # wikilink，串联 vault 内作者笔记
+published_at: 2026-07-03T12:10:00+08:00   # Obsidian 日期与时间属性
 description: 一句话描述
+aliases:                 # 可选：别名，提升链接/检索友好度
+  - 标题别名
 ---
 ```
 
 说明：
 
-- `tags`：YAML 列表，默认含 `wechat`；抓取不到的字段可省略
-- `published_at`：ISO 8601，如 `2026-07-03T12:10:00+08:00`
-- `author` / `location` 等抓取不到则省略
+- `tags`：YAML 块列表（非内联数组）；默认含 `wechat`；支持嵌套标签 `wechat/产品`、`product/prd`
+- `author`：用 `[[作者]]` wikilink 指向 vault 内作者笔记
+- `published_at`：Obsidian「日期与时间」属性，ISO 8601
+- `aliases`：可选，作者 / 文章别名
+- 抓取不到的字段（author / location 等）可省略
 
 ## 正文结构（按顺序，锚点保持）
 
@@ -32,20 +39,26 @@ description: 一句话描述
 # 详细内容
 
 按逻辑分段，每个段落用 2-3 句话概括。
+vault 内其他卡片用 [[另一张卡片]] 互链，==关键词== 可高亮。
 
 # 我的思考
 
 我看完之后的感悟或吐槽，一段一义，不超过三句话。没有自己的思考，记再多也没用。
+> [!tip] 关键洞察
+> 可用 callout 强调最重要的那一条思考。
 
 # 原文内容
 
 原样保存文章全文，保持原文格式（小标题、分割线、图片链接、表格等）。
-不要给原文每行加 `>` 前缀，不要添加公众号 / 作者 / 时间摘要行，不要添加说明行。
+- 本地图片：`![[image.png]]`
+- 外链图片：`![alt](https://...)`
+不要给原文每行加 `>` 前缀，不要添加公众号 / 作者 / 时间摘要行，不要添加说明行，不要用 callout 包裹。
 ```
 
 ## 要点
 
 - 四个一级标题锚点 `# 核心观点` / `# 详细内容` / `# 我的思考` / `# 原文内容` 必须保留，便于文章分析模式按标题解析。
-- `# 原文内容` 原样保存全文，不改写、不加 `>` 前缀、不加摘要行。
-- 标签反映内容实质，避免宽泛词（如「文章」「笔记」）。
+- `# 原文内容` 原样保存全文，不改写、不加 `>` 前缀、不加摘要行、不用 callout 包裹。
+- 内部引用用 `[[wikilink]]`，外部链接用标准 Markdown 链接。
+- 标签反映内容实质，避免宽泛词（如「文章」「笔记」）；支持嵌套标签。
 - 「我的思考」是有个人视角的独立评论，不是总结。
