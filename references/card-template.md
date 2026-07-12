@@ -7,7 +7,6 @@
 ```yaml
 ---
 tags:
-  - wechat
   - product/prd        # 支持嵌套标签
 title: 原文标题
 source: https://mp.weixin.qq.com/s/xxxx
