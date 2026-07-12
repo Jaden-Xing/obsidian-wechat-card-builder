@@ -1,0 +1,1 @@
+一个用在 workbuddy 的 skill，用来分析整理微信文章或obsidian里已经下载好的文档
