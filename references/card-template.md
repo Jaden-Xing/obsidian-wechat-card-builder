@@ -10,6 +10,7 @@ tags:
   - product/prd        # 支持嵌套标签
 title: 原文标题
 source: https://mp.weixin.qq.com/s/xxxx
+source_account: 公众号名称   # 微信文章来源账号名，从 byline 第二截提取；删 byline 行前先写入，避免丢失
 author: "[[作者姓名]]"   # wikilink，串联 vault 内作者笔记
 published_at: 2026-07-03T12:10:00+08:00   # Obsidian 日期与时间属性
 description: 一句话描述
@@ -20,7 +21,8 @@ aliases:                 # 可选：别名，提升链接/检索友好度
 
 说明：
 
-- `tags`：YAML 块列表（非内联数组）；默认含 `wechat`；支持嵌套标签 `wechat/产品`、`product/prd`
+- `tags`：YAML 块列表（非内联数组）；支持嵌套标签 `product/prd`
+- `source_account`：公众号名称（微信文章来源账号名），来自 byline 行第二截；建卡时先提取再删 byline 行
 - `author`：用 `[[作者]]` wikilink 指向 vault 内作者笔记
 - `published_at`：Obsidian「日期与时间」属性，ISO 8601
 - `aliases`：可选，作者 / 文章别名

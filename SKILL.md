@@ -51,8 +51,9 @@ description: 将微信文章链接转为 Obsidian 卡片笔记。当用户发来
 
 ### Frontmatter 属性
 
-- **`tags`**：YAML 块列表（非内联数组）；默认含 `wechat`；支持嵌套标签 `wechat/产品`、`product/prd`
+- **`tags`**：YAML 块列表（非内联数组）；支持嵌套标签 `product/prd`
 - **`title`** / **`source`** / **`description`**：文本
+- **`source_account`**：公众号名称（微信文章来源账号名）。来自 byline 行 `作者 公众号 *发布日期*` 的第二截（或 URL 抓取时的「公众号名称」字段）；建卡时**先从 byline 提取公众号名写入此字段，再删除 `# 原文内容` 里的 byline 行**，避免公众号名随 byline 一起丢失。
 - **`author`**：用 wikilink 指向 vault 内作者笔记，如 `author: "[[张佳]]"`，便于图谱串联
 - **`published_at`**：Obsidian「日期与时间」属性，ISO 8601，如 `2026-07-03T12:10:00+08:00`
 - **`aliases`**（可选）：作者 / 文章别名，提升链接与检索友好度
@@ -73,6 +74,8 @@ description: 将微信文章链接转为 Obsidian 卡片笔记。当用户发来
 
 `# 原文内容` 直接粘贴原始文章全文，保持原文自身格式（小标题、分割线 `---`、图片链接、表格等）；**不要给原文每行加 `>` 前缀，不要添加公众号 / 作者 / 时间摘要行，不要添加说明行，也不要用 callout 包裹**。
 
+- **byline 行处理（微信文章）**：原文顶部的署名行形如 `作者 公众号 *发布日期*`（作者、公众号、日期三截）。建卡时**先提取第二截公众号名写入 `source_account`**，再把整行从 `# 原文内容` 删除——作者已入 `author`、日期已入 `published_at`、公众号名已入 `source_account`，故 byline 行无需保留在正文。文章分析模式遇到旧卡片缺 `source_account` 时，若 `# 原文内容` 仍有 byline 行，同样补提取写入。
+
 标签不要过于宽泛（如「文章」「笔记」），应使用能反映内容实质的标签；「我的思考」不要写成总结，应是有个人视角的独立评论。
 
 ### 去 AI 味（通用必做）
@@ -80,7 +83,7 @@ description: 将微信文章链接转为 Obsidian 卡片笔记。当用户发来
 所有由本 skill 生成的**分析性文字**（`# 核心观点` / `# 详细内容` / `# 我的思考`），在写入文件前必须先用 `/去AI味`(humanizer) skill 过一遍，消除 AI 写作痕迹，让笔记读起来像真人写的：
 
 - 消掉的痕迹：过度升华与意义拔高、宣传/广告腔、`-ing` 式假深度、AI 高频词（additionally / crucial / pivotal / landscape / 此外 / 关键的是 / 至关重要…）、负向排比（"不只是…更是…"）、强行三段式、破折号滥用、谄媚/讨好语气、空洞结语。
-- **永不 humanize 的字段**：`# 原文内容`（是原始抓取素材，铁律原样保存）；frontmatter 的 `source` / `title` / `author` / `published_at` 等元数据（保持机器可读）。
+- **永不 humanize 的字段**：`# 原文内容`（是原始抓取素材，铁律原样保存）；frontmatter 的 `source` / `title` / `author` / `published_at` / `source_account` 等元数据（保持机器可读）。
 - 若用户明确说"不需要业务相关的思考"，则 `# 我的思考` 只做去味、不强行往业务上靠。
 
 完整模板见 `references/card-template.md`。
